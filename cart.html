@@ -1,0 +1,108 @@
+<!-- cart.html - CART PAGE -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Gaming Zerox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                GAMING ZEROX
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="topup.html">Topup</a></li>
+                <li><a href="accounts.html">Accounts</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn active">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <div class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <p>Review your items and checkout</p>
+        </div>
+    </section>
+
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-container" id="cartContainer">
+                <div class="cart-empty" id="cartEmpty">
+                    <i class="fas fa-shopping-basket"></i>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added anything to your cart yet.</p>
+                    <a href="shop.html" class="btn btn-primary">Start Shopping</a>
+                </div>
+
+                <div class="cart-content" id="cartContent" style="display: none;">
+                    <div class="cart-items" id="cartItemsList">
+                        <!-- Cart items injected by JS -->
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <h3>Order Summary</h3>
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="cartSubtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Service Fee</span>
+                            <span>$0.00</span>
+                        </div>
+                        <div class="summary-row discount" id="discountRow" style="display: none;">
+                            <span>Discount</span>
+                            <span id="cartDiscount">-$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="cartTotalPrice">$0.00</span>
+                        </div>
+                        
+                        <div class="promo-code">
+                            <input type="text" id="promoInput" placeholder="Enter promo code">
+                            <button onclick="applyPromo()">Apply</button>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-full" onclick="checkout()">
+                            <i class="fas fa-lock"></i> Proceed to Checkout
+                        </button>
+                        
+                        <a href="shop.html" class="continue-shopping">
+                            <i class="fas fa-arrow-left"></i> Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Gaming Zerox. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

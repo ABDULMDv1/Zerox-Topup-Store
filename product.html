@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management - Gaming Zerox Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <div class="admin-dashboard" id="adminDashboard">
+        <!-- Sidebar (same structure) -->
+        <aside class="sidebar">
+            <!-- ... same sidebar ... -->
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
+                <a href="products.html" class="nav-item active"><i class="fas fa-box"></i><span>Products</span></a>
+                <a href="accounts.html" class="nav-item"><i class="fas fa-users"></i><span>Game Accounts</span></a>
+                <a href="customers.html" class="nav-item"><i class="fas fa-user-friends"></i><span>Customers</span></a>
+                <a href="analytics.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
+                <a href="whatsapp.html" class="nav-item"><i class="fab fa-whatsapp"></i><span>WhatsApp Bot</span></a>
+                <div class="nav-divider"></div>
+                <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+                <a href="#" class="nav-item" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                    <h1>Product Management</h1>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="openProductModal()">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+            </header>
+
+            <!-- Product Categories -->
+            <div class="category-tabs">
+                <button class="cat-tab active" onclick="filterProducts('all')">All Products</button>
+                <button class="cat-tab" onclick="filterProducts('diamonds')">Diamonds</button>
+                <button class="cat-tab" onclick="filterProducts('accounts')">Accounts</button>
+                <button class="cat-tab" onclick="filterProducts('passes')">Elite Passes</button>
+                <button class="cat-tab" onclick="filterProducts('bundles')">Bundles</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-admin-grid" id="productsGrid">
+                <!-- Loaded via JS -->
+            </div>
+
+            <!-- Pricing Rules Section -->
+            <div class="dashboard-card mt-4">
+                <div class="card-header">
+                    <h3><i class="fas fa-sliders-h"></i> Dynamic Pricing Rules</h3>
+                </div>
+                <div class="pricing-rules">
+                    <div class="rule-item">
+                        <div class="rule-info">
+                            <h4>Flash Sale Discount</h4>
+                            <p>Automatic 20% off during peak hours (8PM-12AM)</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-info">
+                            <h4>Bulk Purchase Bonus</h4>
+                            <p>Extra 10% diamonds for orders over $100</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-info">
+                            <h4>New Customer Offer</h4>
+                            <p>First purchase gets 15% discount</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productEditModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="productModalTitle">Edit Product</h2>
+                <button class="close-modal" onclick="closeModal('productEditModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="productEditForm" onsubmit="saveProductEdit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" id="editProductName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="editProductCategory" required>
+                                <option value="diamonds">Diamonds</option>
+                                <option value="account">Account</option>
+                                <option value="pass">Elite Pass</option>
+                                <option value="bundle">Bundle</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Base Price ($)</label>
+                            <input type="number" step="0.01" id="editProductPrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sale Price ($)</label>
+                            <input type="number" step="0.01" id="editProductSalePrice">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="editProductDesc" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Stock Quantity</label>
+                            <input type="number" id="editProductStock" value="-1">
+                            <small>-1 for unlimited</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Image</label>
+                            <input type="file" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <label class="checkbox"><input type="checkbox" id="editProductPopular"> Popular Item</label>
+                        <label class="checkbox"><input type="checkbox" id="editProductActive"> Active</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('productEditModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

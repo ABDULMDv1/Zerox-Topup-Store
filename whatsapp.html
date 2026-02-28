@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot - Gaming Zerox Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <div class="admin-dashboard" id="adminDashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-gamepad"></i>
+                <span>GAMING ZEROX</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
+                <a href="products.html" class="nav-item"><i class="fas fa-box"></i><span>Products</span></a>
+                <a href="accounts.html" class="nav-item"><i class="fas fa-users"></i><span>Game Accounts</span></a>
+                <a href="customers.html" class="nav-item"><i class="fas fa-user-friends"></i><span>Customers</span></a>
+                <a href="analytics.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
+                <a href="whatsapp.html" class="nav-item active"><i class="fab fa-whatsapp"></i><span>WhatsApp Bot</span></a>
+                <div class="nav-divider"></div>
+                <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+                <a href="#" class="nav-item" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                    <h1>WhatsApp Bot Control Center</h1>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-success" onclick="connectWhatsApp()">
+                        <i class="fas fa-plug"></i> Connect
+                    </button>
+                </div>
+            </header>
+
+            <!-- Connection Status -->
+            <div class="connection-status-bar" id="connectionStatus">
+                <div class="status-indicator online">
+                    <i class="fas fa-circle"></i>
+                    <span>Bot Online - Connected</span>
+                </div>
+                <div class="status-details">
+                    <span>Phone: +1 (234) 567-890</span>
+                    <span>Last Ping: 2s ago</span>
+                    <span>Messages/Hour: 45</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Message Templates -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-comment-dots"></i> Message Templates</h3>
+                        <button class="btn btn-sm btn-primary" onclick="addTemplate()">Add Template</button>
+                    </div>
+                    <div class="template-list" id="templateList">
+                        <div class="template-item">
+                            <div class="template-header">
+                                <span class="template-name">Payment Verification</span>
+                                <span class="template-vars">3 variables</span>
+                            </div>
+                            <div class="template-preview">
+                                👋 Hi {name}! 🔒 Payment Verification Required. Order: {order} Amount: {amount}. Reply YES to confirm.
+                            </div>
+                            <div class="template-actions">
+                                <button onclick="editTemplate(1)"><i class="fas fa-edit"></i></button>
+                                <button onclick="testTemplate(1)"><i class="fas fa-paper-plane"></i></button>
+                                <button onclick="deleteTemplate(1)"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="template-item">
+                            <div class="template-header">
+                                <span class="template-name">TOPUP DONE</span>
+                                <span class="template-vars">4 variables</span>
+                            </div>
+                            <div class="template-preview">
+                                🎉 TOPUP DONE! Order: {order} Status: COMPLETED ✅ Amount: {amount} {items}. Thank you!
+                            </div>
+                            <div class="template-actions">
+                                <button onclick="editTemplate(2)"><i class="fas fa-edit"></i></button>
+                                <button onclick="testTemplate(2)"><i class="fas fa-paper-plane"></i></button>
+                                <button onclick="deleteTemplate(2)"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="template-item">
+                            <div class="template-header">
+                                <span class="template-name">Order Processing</span>
+                                <span class="template-vars">2 variables</span>
+                            </div>
+                            <div class="template-preview">
+                                ⏳ Order {order} is being processed. Estimated delivery: {time}. We'll notify you when done!
+                            </div>
+                            <div class="template-actions">
+                                <button onclick="editTemplate(3)"><i class="fas fa-edit"></i></button>
+                                <button onclick="testTemplate(3)"><i class="fas fa-paper-plane"></i></button>
+                                <button onclick="deleteTemplate(3)"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Chat -->
+                <div class="dashboard-card chat-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-comments"></i> Live Conversations</h3>
+                        <span class="badge" id="activeChats">5 active</span>
+                    </div>
+                    <div class="chat-interface">
+                        <div class="chat-list" id="chatList">
+                            <div class="chat-item active" onclick="selectChat(1)">
+                                <img src="https://via.placeholder.com/40" alt="User">
+                                <div class="chat-info">
+                                    <h4>John Doe</h4>
+                                    <p>Last: 2 min ago</p>
+                                </div>
+                                <span class="unread-badge">2</span>
+                            </div>
+                            <div class="chat-item" onclick="selectChat(2)">
+                                <img src="https://via.placeholder.com/40" alt="User">
+                                <div class="chat-info">
+                                    <h4>Sarah Smith</h4>
+                                    <p>Last: 15 min ago</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-window" id="chatWindow">
+                            <div class="chat-header">
+                                <img src="https://via.placeholder.com/40" alt="User">
+                                <div>
+                                    <h4>John Doe</h4>
+                                    <span class="online-status">Online</span>
+                                </div>
+                                <button class="btn btn-sm" onclick="viewOrderFromChat()">View Order</button>
+                            </div>
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message received">
+                                    <div class="message-content">Hi, I haven't received my diamonds yet</div>
+                                    <span class="message-time">10:30 AM</span>
+                                </div>
+                                <div class="message sent">
+                                    <div class="message-content">Let me check your order status right away</div>
+                                    <span class="message-time">10:32 AM</span>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" placeholder="Type a message..." id="chatInput">
+                                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Broadcast -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-broadcast-tower"></i> Broadcast Message</h3>
+                    </div>
+                    <form class="broadcast-form" onsubmit="sendBroadcast(event)">
+                        <div class="form-group">
+                            <label>Recipient Group</label>
+                            <select required>
+                                <option value="all">All Customers</option>
+                                <option value="vip">VIP Customers</option>
+                                <option value="recent">Recent Buyers (7 days)</option>
+                                <option value="inactive">Inactive (30+ days)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="4" placeholder="Enter your broadcast message..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Attachment (Optional)</label>
+                            <input type="file" accept="image/*,video/*">
+                        </div>
+                        <div class="broadcast-preview">
+                            <h4>Preview:</h4>
+                            <div class="whatsapp-preview-box">
+                                <i class="fab fa-whatsapp"></i>
+                                <p>Message will be sent to <strong>1,245</strong> customers</p>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Send Broadcast
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Bot Settings -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-robot"></i> Bot Automation</h3>
+                    </div>
+                    <div class="bot-settings">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Auto-Reply</h4>
+                                <p>Automatically respond to common queries</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Payment Reminders</h4>
+                                <p>Send reminders for pending payments</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Delivery Updates</h4>
+                                <p>Auto-send status updates</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Review Requests</h4>
+                                <p>Ask for reviews after delivery</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Log -->
+                <div class="dashboard-card full-width">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Message Log</h3>
+                        <div class="header-actions">
+                            <input type="date" class="form-input">
+                            <button class="btn btn-sm btn-secondary" onclick="exportLogs()">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Recipient</th>
+                                    <th>Type</th>
+                                    <th>Template</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="messageLog">
+                                <tr>
+                                    <td>2024-01-15 14:30:22</td>
+                                    <td>+1234567890</td>
+                                    <td><span class="badge">Verification</span></td>
+                                    <td>Payment Verification</td>
+                                    <td><span class="status-badge success">Delivered</span></td>
+                                    <td><button class="btn btn-sm" onclick="resendMessage(1)">Resend</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2024-01-15 14:25:10</td>
+                                    <td>+1987654321</td>
+                                    <td><span class="badge success">TOPUP DONE</span></td>
+                                    <td>TOPUP DONE</td>
+                                    <td><span class="status-badge success">Read</span></td>
+                                    <td><button class="btn btn-sm" onclick="resendMessage(2)">Resend</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

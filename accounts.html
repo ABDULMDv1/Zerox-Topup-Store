@@ -1,0 +1,87 @@
+<!-- accounts.html - ACCOUNTS PAGE -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Accounts - Gaming Zerox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                GAMING ZEROX
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="topup.html">Topup</a></li>
+                <li><a href="accounts.html" class="active">Accounts</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <div class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Premium Accounts</h1>
+            <p>Buy verified Free Fire accounts with rare items</p>
+        </div>
+    </section>
+
+    <section class="accounts-section">
+        <div class="container">
+            <div class="accounts-filters">
+                <button class="filter-btn active" onclick="filterAccounts('all')">All Ranks</button>
+                <button class="filter-btn" onclick="filterAccounts('grandmaster')">Grandmaster</button>
+                <button class="filter-btn" onclick="filterAccounts('heroic')">Heroic</button>
+                <button class="filter-btn" onclick="filterAccounts('diamond')">Diamond</button>
+                <select class="sort-select" onchange="sortAccounts(this.value)">
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="level">Level</option>
+                </select>
+            </div>
+            <div class="accounts-grid" id="accountsGrid">
+                <!-- Accounts injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Account Details Modal -->
+    <div class="modal" id="accountModal">
+        <div class="modal-content modal-large">
+            <button class="close-modal" onclick="closeAccountModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="account-modal-content" id="accountModalContent">
+                <!-- Content injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Gaming Zerox. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

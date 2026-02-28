@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Verification - Gaming Zerox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                GAMING ZEROX
+            </a>
+        </div>
+    </nav>
+
+    <section class="verification-section">
+        <div class="container">
+            <div class="verification-card">
+                <div class="verification-header">
+                    <div class="status-icon pending" id="statusIcon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <h1>Payment Verification</h1>
+                    <p id="statusText">Waiting for payment confirmation...</p>
+                </div>
+
+                <div class="verification-details">
+                    <div class="detail-card">
+                        <h3>Order Information</h3>
+                        <div class="detail-row">
+                            <span>Order ID:</span>
+                            <strong id="verifyOrderId">GZ-ORDER-001</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Amount:</span>
+                            <strong id="verifyAmount">$0.00</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Payment Method:</span>
+                            <strong id="verifyMethod">Credit Card</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Status:</span>
+                            <span class="status-badge pending" id="verifyStatus">Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <h3>WhatsApp Verification</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">
+                            We've sent a verification message to your WhatsApp. Please confirm to proceed.
+                        </p>
+                        <div class="whatsapp-chat" id="whatsappChat">
+                            <div class="chat-message sent">
+                                <div class="message-bubble">
+                                    <strong>Gaming Zerox:</strong><br>
+                                    👋 Hi <span id="chatCustomerName">Customer</span>!<br><br>
+                                    🔒 Payment Verification Required<br>
+                                    Order: <span id="chatOrderId">GZ-ORDER-001</span><br>
+                                    Amount: <span id="chatAmount">$0.00</span><br><br>
+                                    Please reply with <strong>YES</strong> to confirm this payment, or <strong>NO</strong> to cancel.
+                                </div>
+                                <span class="message-time">Just now</span>
+                            </div>
+                            <div class="chat-message received" id="userReply" style="display: none;">
+                                <div class="message-bubble">
+                                    YES
+                                </div>
+                                <span class="message-time">Just now</span>
+                            </div>
+                        </div>
+                        <div class="whatsapp-actions" id="whatsappActions">
+                            <button class="btn btn-success" onclick="simulateWhatsAppReply('yes')">
+                                <i class="fab fa-whatsapp"></i> Simulate "YES" Reply
+                            </button>
+                            <button class="btn btn-danger" onclick="simulateWhatsAppReply('no')">
+                                <i class="fab fa-whatsapp"></i> Simulate "NO" Reply
+                            </button>
+                        </div>
+                        <div class="verification-notice" id="verificationNotice" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <p>Payment verified! Redirecting to processing...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="verification-timeline" id="verificationTimeline">
+                    <div class="timeline-item active">
+                        <div class="timeline-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="timeline-content">
+                            <h4>Order Placed</h4>
+                            <p>Your order has been received</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item active">
+                        <div class="timeline-icon"><i class="fas fa-credit-card"></i></div>
+                        <div class="timeline-content">
+                            <h4>Payment Initiated</h4>
+                            <p>Waiting for verification</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" id="timelineVerify">
+                        <div class="timeline-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div class="timeline-content">
+                            <h4>WhatsApp Verification</h4>
+                            <p>Confirm payment via WhatsApp</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" id="timelineProcess">
+                        <div class="timeline-icon"><i class="fas fa-cog"></i></div>
+                        <div class="timeline-content">
+                            <h4>Processing</h4>
+                            <p>Delivering your items</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" id="timelineComplete">
+                        <div class="timeline-icon"><i class="fas fa-check"></i></div>
+                        <div class="timeline-content">
+                            <h4>Completed</h4>
+                            <p>Order delivered successfully</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadVerificationData();
+        });
+    </script>
+</body>
+</html>

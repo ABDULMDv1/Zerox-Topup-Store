@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Gaming Zerox</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-body">
+    <!-- Login Screen -->
+    <div class="admin-login" id="adminLogin">
+        <div class="login-box">
+            <div class="login-logo">
+                <i class="fas fa-shield-alt"></i>
+                <h2>ADMIN PANEL</h2>
+                <p>Gaming Zerox Management System</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user-shield"></i>
+                        <input type="text" id="adminUser" required placeholder="Enter admin username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="adminPass" required placeholder="Enter password">
+                    </div>
+                </div>
+                <div class="login-options">
+                    <label class="checkbox">
+                        <input type="checkbox"> Remember me
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-sign-in-alt"></i> Access Dashboard
+                </button>
+            </form>
+            <div class="login-footer">
+                <p><i class="fas fa-exclamation-triangle"></i> Authorized personnel only</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard (Hidden until login) -->
+    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-gamepad"></i>
+                <span>GAMING ZEROX</span>
+                <small>ADMIN v2.0</small>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="orders.html" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                    <span class="badge" id="newOrdersBadge">3</span>
+                </a>
+                <a href="products.html" class="nav-item">
+                    <i class="fas fa-box"></i>
+                    <span>Products</span>
+                </a>
+                <a href="accounts.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Game Accounts</span>
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="whatsapp.html" class="nav-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp Bot</span>
+                    <span class="badge success">ON</span>
+                </a>
+                <div class="nav-divider"></div>
+                <a href="settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item" onclick="adminLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <img src="https://via.placeholder.com/40" alt="Admin" class="admin-avatar">
+                    <div>
+                        <span class="admin-name">Super Admin</span>
+                        <span class="admin-role">Full Access</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Dashboard Overview</h1>
+                </div>
+                <div class="header-right">
+                    <div class="header-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search orders, customers...">
+                    </div>
+                    <button class="header-btn" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="header-btn" onclick="toggleNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card sales">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Today's Sales</span>
+                        <span class="stat-value" id="todaySales">$0.00</span>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +12.5%
+                        </span>
+                    </div>
+                </div>
+                <div class="stat-card orders">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">New Orders</span>
+                        <span class="stat-value" id="newOrders">0</span>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +8.2%
+                        </span>
+                    </div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pending Verification</span>
+                        <span class="stat-value" id="pendingVerifications">0</span>
+                        <span class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i> -2.1%
+                        </span>
+                    </div>
+                </div>
+                <div class="stat-card customers">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Customers</span>
+                        <span class="stat-value" id="totalCustomers">0</span>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +5.4%
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="dashboard-grid">
+                <!-- Recent Orders -->
+                <div class="dashboard-card orders-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-shopping-cart"></i> Recent Orders</h3>
+                        <a href="orders.html" class="btn btn-sm">View All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTable">
+                                <!-- Loaded via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sales Chart -->
+                <div class="dashboard-card chart-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Sales Analytics</h3>
+                        <select class="form-select" onchange="updateChart(this.value)">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30">Last 30 Days</option>
+                            <option value="90">Last 3 Months</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Top Products -->
+                <div class="dashboard-card products-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-fire"></i> Top Selling Products</h3>
+                    </div>
+                    <div class="product-list" id="topProductsList">
+                        <!-- Loaded via JS -->
+                    </div>
+                </div>
+
+                <!-- WhatsApp Status -->
+                <div class="dashboard-card whatsapp-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-whatsapp"></i> WhatsApp Bot Status</h3>
+                        <span class="status-badge online">Online</span>
+                    </div>
+                    <div class="whatsapp-stats">
+                        <div class="wa-stat">
+                            <span class="wa-number" id="waSent">0</span>
+                            <span class="wa-label">Messages Sent</span>
+                        </div>
+                        <div class="wa-stat">
+                            <span class="wa-number" id="waDelivered">0</span>
+                            <span class="wa-label">Delivered</span>
+                        </div>
+                        <div class="wa-stat">
+                            <span class="wa-number" id="waPending">0</span>
+                            <span class="wa-label">Pending</span>
+                        </div>
+                    </div>
+                    <div class="whatsapp-actions">
+                        <button class="btn btn-success btn-sm" onclick="testWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> Test Connection
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="broadcastMessage()">
+                            <i class="fas fa-broadcast-tower"></i> Broadcast
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="dashboard-card actions-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="addProduct()">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Product</span>
+                        </button>
+                        <button class="action-btn" onclick="addAccount()">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Add Account</span>
+                        </button>
+                        <button class="action-btn" onclick="processRefund()">
+                            <i class="fas fa-undo"></i>
+                            <span>Process Refund</span>
+                        </button>
+                        <button class="action-btn" onclick="generateReport()">
+                            <i class="fas fa-file-export"></i>
+                            <span>Export Report</span>
+                        </button>
+                        <button class="action-btn" onclick="clearCache()">
+                            <i class="fas fa-broom"></i>
+                            <span>Clear Cache</span>
+                        </button>
+                        <button class="action-btn" onclick="backupData()">
+                            <i class="fas fa-database"></i>
+                            <span>Backup Data</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="dashboard-card system-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> System Status</h3>
+                    </div>
+                    <div class="system-metrics">
+                        <div class="metric">
+                            <span class="metric-name">Server Load</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%; background: var(--accent);"></div>
+                            </div>
+                            <span class="metric-value">45%</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-name">Memory Usage</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 62%; background: var(--primary);"></div>
+                            </div>
+                            <span class="metric-value">62%</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-name">Database</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 28%; background: var(--secondary);"></div>
+                            </div>
+                            <span class="metric-value">28%</span>
+                        </div>
+                    </div>
+                    <div class="system-info">
+                        <p><i class="fas fa-check-circle"></i> All systems operational</p>
+                        <p><i class="fas fa-clock"></i> Last backup: 2 hours ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="admin-footer">
+                <p>&copy; 2024 Gaming Zerox Admin System. Version 2.0.1</p>
+                <p>Server Time: <span id="serverTime">--:--:--</span></p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-modal" onclick="closeModal('orderModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="orderModalContent">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Product</h2>
+                <button class="close-modal" onclick="closeModal('productModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm" onsubmit="saveProduct(event)">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" required placeholder="e.g., 1000 Diamonds">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select required>
+                                <option value="diamonds">Diamonds</option>
+                                <option value="account">Account</option>
+                                <option value="pass">Elite Pass</option>
+                                <option value="bundle">Bundle</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price ($)</label>
+                            <input type="number" step="0.01" required placeholder="9.99">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="3" placeholder="Product description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Icon Class (Font Awesome)</label>
+                        <input type="text" placeholder="fa-gem" value="fa-gem">
+                    </div>
+                    <div class="form-check">
+                        <label class="checkbox">
+                            <input type="checkbox"> Mark as Popular
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-save"></i> Save Product
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

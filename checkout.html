@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Gaming Zerox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                GAMING ZEROX
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="topup.html">Topup</a></li>
+                <li><a href="accounts.html">Accounts</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <div class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Secure Checkout</h1>
+            <p>Complete your purchase securely</p>
+        </div>
+    </section>
+
+    <section class="checkout-section">
+        <div class="container">
+            <div class="checkout-grid">
+                <div class="checkout-form">
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Contact Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" id="customerName" required placeholder="Your full name">
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp Number *</label>
+                                <input type="tel" id="whatsappNumber" required placeholder="+1234567890">
+                                <small style="color: var(--text-muted);">For payment verification & updates</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" id="customerEmail" required placeholder="your@email.com">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card" checked onchange="selectPayment('card')">
+                                <div class="payment-box">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>Credit/Debit Card</span>
+                                    <div class="payment-icons">
+                                        <i class="fab fa-cc-visa"></i>
+                                        <i class="fab fa-cc-mastercard"></i>
+                                        <i class="fab fa-cc-amex"></i>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="paypal" onchange="selectPayment('paypal')">
+                                <div class="payment-box">
+                                    <i class="fab fa-paypal"></i>
+                                    <span>PayPal</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="crypto" onchange="selectPayment('crypto')">
+                                <div class="payment-box">
+                                    <i class="fab fa-bitcoin"></i>
+                                    <span>Cryptocurrency</span>
+                                    <small>BTC, ETH, USDT</small>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="manual" onchange="selectPayment('manual')">
+                                <div class="payment-box">
+                                    <i class="fas fa-money-bill-transfer"></i>
+                                    <span>Manual Transfer</span>
+                                    <small>Bank/Wallet Transfer</small>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Card Payment Form -->
+                        <div id="cardForm" class="payment-form">
+                            <div class="form-group">
+                                <label>Card Number</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                    <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label>CVV</label>
+                                    <div class="input-icon">
+                                        <i class="fas fa-lock"></i>
+                                        <input type="password" placeholder="123" maxlength="4">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Cardholder Name</label>
+                                <input type="text" placeholder="Name on card">
+                            </div>
+                        </div>
+
+                        <!-- PayPal Form -->
+                        <div id="paypalForm" class="payment-form" style="display: none;">
+                            <div class="payment-notice">
+                                <i class="fab fa-paypal"></i>
+                                <p>You will be redirected to PayPal to complete your payment securely.</p>
+                            </div>
+                        </div>
+
+                        <!-- Crypto Form -->
+                        <div id="cryptoForm" class="payment-form" style="display: none;">
+                            <div class="crypto-options">
+                                <label class="crypto-option">
+                                    <input type="radio" name="crypto" value="btc" checked>
+                                    <div class="crypto-box">
+                                        <i class="fab fa-bitcoin" style="color: #f7931a;"></i>
+                                        <span>Bitcoin (BTC)</span>
+                                    </div>
+                                </label>
+                                <label class="crypto-option">
+                                    <input type="radio" name="crypto" value="eth">
+                                    <div class="crypto-box">
+                                        <i class="fab fa-ethereum" style="color: #627eea;"></i>
+                                        <span>Ethereum (ETH)</span>
+                                    </div>
+                                </label>
+                                <label class="crypto-option">
+                                    <input type="radio" name="crypto" value="usdt">
+                                    <div class="crypto-box">
+                                        <i class="fas fa-coins" style="color: #26a17b;"></i>
+                                        <span>USDT (TRC20)</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="payment-notice">
+                                <i class="fas fa-info-circle"></i>
+                                <p>Crypto address will be generated after clicking "Complete Order". Send exact amount to avoid delays.</p>
+                            </div>
+                        </div>
+
+                        <!-- Manual Transfer Form -->
+                        <div id="manualForm" class="payment-form" style="display: none;">
+                            <div class="transfer-details">
+                                <h4>Bank Transfer Details</h4>
+                                <div class="detail-row">
+                                    <span>Bank Name:</span>
+                                    <strong>International Gaming Bank</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Account Name:</span>
+                                    <strong>Gaming Zerox Ltd</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Account Number:</span>
+                                    <strong>XXXX-XXXX-XXXX-1234</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>SWIFT Code:</span>
+                                    <strong>IGBKUS33</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Reference:</span>
+                                    <strong id="transferReference">GZ-ORDER-001</strong>
+                                </div>
+                            </div>
+                            <div class="payment-notice warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Please include your Order ID as reference. Payment verification may take 1-2 hours.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="cart.html" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Cart
+                        </a>
+                        <button class="btn btn-primary btn-large" onclick="processPayment()">
+                            <i class="fas fa-lock"></i> Complete Secure Payment
+                        </button>
+                    </div>
+                </div>
+
+                <div class="checkout-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-items" id="checkoutItems">
+                        <!-- Items loaded via JS -->
+                    </div>
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="checkoutSubtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (10%)</span>
+                            <span id="checkoutTax">$0.00</span>
+                        </div>
+                        <div class="summary-row discount" id="discountRow" style="display: none;">
+                            <span>Discount</span>
+                            <span id="checkoutDiscount">-$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="checkoutTotal">$0.00</span>
+                        </div>
+                    </div>
+                    <div class="secure-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>256-bit SSL Secure Payment</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Processing Modal -->
+    <div class="modal" id="processingModal">
+        <div class="modal-content">
+            <div class="processing-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+            </div>
+            <h2>Processing Payment...</h2>
+            <p>Please do not close this window</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="paymentProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Gaming Zerox</h3>
+                    <p>Secure gaming transactions.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Gaming Zerox. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Load checkout data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCheckoutData();
+            generateOrderReference();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+🔐 Admin Access:
+
+URL: gaming-zerox/admin/index.html
+Username: admin
+Password: admin123
+
+| Module        | Features                                                    |
+| ------------- | ----------------------------------------------------------- |
+| **Dashboard** | Real-time stats, sales chart, recent orders, system status  |
+| **Orders**    | Full order management, filters, bulk actions, detailed view |
+| **Products**  | Add/edit products, dynamic pricing rules, inventory         |
+| **WhatsApp**  | Message templates, live chat, broadcast, bot automation     |
+| **Analytics** | Sales reports, customer insights, conversion tracking       |
+| **Settings**  | Payment gateways, notification settings, admin users        |
+
+WhatsApp Control:
+✅ Auto-reply configuration
+✅ Message templates editor
+✅ Live chat interface
+✅ Broadcast messaging
+✅ Delivery status tracking
+✅ Bot automation rules
